@@ -7,8 +7,10 @@
         <div v-if="message">
             <p>{{ message }}</p>
         </div>
-        <expenses-seeker></expenses-seeker>
         <div class="flex flex-wrap justify-evenly container mx-auto">
+            <div class="w-full max-w-xs">
+                    <expenses-seeker></expenses-seeker>
+            </div>
             <div class="w-full max-w-xs">
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="create">
                     <div class="mb-4">
@@ -44,7 +46,7 @@
             </div>
         </div>
 
-        <ExpensesList :expenses="expenses" @delete-expense="deleteExpense"/>
+        <ExpensesList :expenses="filtered" @delete-expense="deleteExpense"/>
 
     </div>
 </template>
@@ -75,6 +77,9 @@ export default class Expenses extends Vue {
 
     get expenses () {
       return this.$store.state.expenses
+    }
+    get filtered () {
+      return this.$store.state.filtered
     }
     create () {
       this.error = ''
@@ -158,6 +163,7 @@ export default class Expenses extends Vue {
             res.json()
               .then(json => {
                 this.$store.commit('setExpenses', json.expenses)
+                this.$store.commit('setFiltered', json.expenses)
                 this.tags = json.tags
               })
           }

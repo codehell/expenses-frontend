@@ -36,7 +36,7 @@ export default class ExpensesList extends Vue {
       return expense
     }
 
-    public parseDate (date: string) {
+    private parseDate (date: string) {
       return moment(date).format('lll')
     }
 }
