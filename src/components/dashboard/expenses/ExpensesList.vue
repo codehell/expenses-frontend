@@ -26,17 +26,18 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import moment from 'moment'
+import { Expense } from '@/types'
 
 @Component
 export default class ExpensesList extends Vue {
-    @Prop() private expenses!: Array<Object>
+    @Prop() private expenses!: Array<Expense>
 
     @Emit()
-    deleteExpense (expense: Object) {
+    deleteExpense (expense: Expense) {
       return expense
     }
 
-    private parseDate (date: string) {
+    parseDate (date: string) {
       return moment(date).format('lll')
     }
 }

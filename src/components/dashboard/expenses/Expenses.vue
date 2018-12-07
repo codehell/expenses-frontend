@@ -9,7 +9,7 @@
         </div>
         <div class="flex flex-wrap justify-evenly container mx-auto">
             <div class="w-full max-w-xs">
-                    <expenses-seeker></expenses-seeker>
+                <ExpensesSeeker></ExpensesSeeker>
             </div>
             <div class="w-full max-w-xs">
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="create">
@@ -58,6 +58,7 @@ import Config from '@/config'
 import ExpensesList from '@/components/dashboard/expenses/ExpensesList.vue'
 import ExpensesSeeker from '@/components/dashboard/expenses/ExpensesSeeker.vue'
 import moment from 'moment'
+import { Tag } from '@/types'
 
 @Component({
   components: {
@@ -72,20 +73,22 @@ export default class Expenses extends Vue {
     headers: Headers = new Headers()
     message: string = ''
     tag: string = ''
-    tags: Array<Object> = []
+    tags: Array<Tag> = []
     selectedTags: Array<Number> = []
 
     get expenses () {
       return this.$store.state.expenses
     }
+
     get filtered () {
       return this.$store.state.filtered
     }
+
     create () {
       this.error = ''
       this.message = ''
       let tagsData: Array<Object> = []
-      this.selectedTags.forEach((tag) => {
+      this.selectedTags.forEach((tag: Number) => {
         tagsData.push({ 'id': tag })
       })
       let data = {

@@ -5,9 +5,16 @@
                 <input class="ch-input" name="date" ref="flp" placeholder="By date" v-model="date">
             </div>
             <div class="mb-4">
-                <input class="ch-input" name="description" type="text" placeholder="By description">
+                <input
+                    class="ch-input"
+                    name="description"
+                    type="text"
+                    placeholder="By description"
+                    v-model="description"
+                >
             </div>
             <button type="submit" class="btn btn-indigo">Search</button>
+            <button type="button" class="btn btn-indigo" @click="clear">Clear</button>
         </form>
     </div>
 </template>
@@ -17,22 +24,37 @@ import { Component, Vue } from 'vue-property-decorator'
 import 'flatpickr/dist/themes/dark.css'
 import flatpickr from 'flatpickr'
 import moment, { Moment } from 'moment'
+import { Expense } from '@/types'
 
 @Component
 export default class ExpensesSeeker extends Vue {
   date: string = ''
+  description: string = ''
 
   get expenses () {
     return this.$store.state.expenses
   }
 
-  private search () {
-    let selD: Moment = moment(this.date)
-    let expenses: any = this.expenses.filter((expense: any) => {
-      let expD: Moment = moment(expense.created_at).startOf('day')
-      let diff: number = selD.diff(expD, 'days')
-      return diff === 0
-    })
+  clear () {
+    this.date = ''
+    this.description = ''
+    this.search()
+  }
+  search () {
+    let expenses: Array<Expense> = this.expenses
+    if (this.date.length > 0) {
+      let selD: Moment = moment(this.date)
+      expenses = expenses.filter((expense: Expense) => {
+        let expD: Moment = moment(expense.created_at).startOf('day')
+        let diff: number = selD.diff(expD, 'days')
+        return diff === 0
+      })
+    }
+    if (this.description.length > 0) {
+      expenses = expenses.filter((expense: Expense) => {
+        return expense.description.toLowerCase().includes(this.description)
+      })
+    }
     this.$store.commit('setFiltered', expenses)
   }
 
@@ -42,7 +64,3 @@ export default class ExpensesSeeker extends Vue {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

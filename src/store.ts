@@ -1,23 +1,13 @@
 import Vue from 'vue'
 import Vuex, { StoreOptions } from 'vuex'
-
-interface Expense {
-  amount: string
-  // eslint-disable-next-line
-  created_at: string
-}
-
-interface RootStore {
-  expenses: Array<Expense>
-  filtered: Array<Expense>
-}
+import { Expense, RootStore } from '@/types'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store<RootStore>({
   state: {
     expenses: [],
-    filtered: [],
+    filtered: []
   },
   mutations: {
     setExpenses (state, expenses) {
