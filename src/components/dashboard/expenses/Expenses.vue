@@ -97,7 +97,7 @@ export default class Expenses extends Vue {
         'tags': tagsData
       }
       this.headers.set('Content-Type', 'application/json')
-      fetch(Config.baseUrl + 'expenses', {
+      fetch(Config.baseUrl() + 'expenses', {
         method: 'Post',
         headers: this.headers,
         body: JSON.stringify(data)
@@ -118,7 +118,7 @@ export default class Expenses extends Vue {
         'name': this.tag
       }
       this.headers.set('Content-Type', 'application/json')
-      fetch(Config.baseUrl + 'tags', {
+      fetch(Config.baseUrl() + 'tags', {
         method: 'Post',
         headers: this.headers,
         body: JSON.stringify(data)
@@ -136,7 +136,7 @@ export default class Expenses extends Vue {
       this.error = ''
       this.message = ''
       this.headers.set('Content-Type', 'application/json')
-      fetch(Config.baseUrl + 'expenses', {
+      fetch(Config.baseUrl() + 'expenses', {
         method: 'Delete',
         headers: this.headers,
         body: JSON.stringify(expense)
@@ -153,7 +153,7 @@ export default class Expenses extends Vue {
     refresh () {
       this.error = ''
       this.message = ''
-      fetch(Config.baseUrl + 'expenses', {
+      fetch(Config.baseUrl() + 'expenses', {
         method: 'GET',
         headers: this.headers
       })

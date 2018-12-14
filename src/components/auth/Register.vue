@@ -69,7 +69,7 @@ export default class Register extends Vue {
     }
     let headers = new Headers()
     headers.set('Content-Type', 'application/json')
-    fetch(Config.baseUrl + 'auth/register', {
+    fetch(Config.baseUrl() + 'auth/register', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: headers

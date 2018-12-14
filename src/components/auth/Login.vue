@@ -59,7 +59,7 @@ export default class Login extends Vue {
     let headers = new Headers()
     headers.set('Content-type', 'text/plain')
     headers.set('Authorization', 'Basic ' + btoa(this.email + ':' + this.password))
-    fetch(Config.baseUrl + 'auth/login', {
+    fetch(Config.baseUrl() + 'auth/login', {
       method: 'POST',
       headers: headers
     })
