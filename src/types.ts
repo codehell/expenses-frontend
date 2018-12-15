@@ -18,4 +18,5 @@ export interface Tag {
 export interface RootStore {
   expenses: Array<Expense>
   filtered: Array<Expense>
+  isLogged: boolean
 }

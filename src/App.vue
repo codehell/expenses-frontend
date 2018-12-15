@@ -12,7 +12,7 @@
                     <router-link class="mx-2" :to="{ name: 'register' }">Sing up</router-link>
                 </template>
                 <template v-else>
-                    <router-link class="mx-2" :to="{ name: 'login' }">Logout</router-link>
+                    <a href="#" @click.prevent="logout">Logout</a>
                     <router-link class="mx-2" :to="{ name: 'dashboard/expenses' }">Dashboard</router-link>
                 </template>
             </div>
@@ -26,8 +26,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 
 @Component
 export default class App extends Vue {
+  logout () {
+    this.$store.commit('setIsLogged', false)
+    localStorage.removeItem('token')
+    this.$router.push({ name: 'login' })
+  }
   get isLogged () {
-    return localStorage.getItem('token') != null
+    return this.$store.state.isLogged
   }
 }
 </script>

@@ -16,6 +16,7 @@
     "add": "^2.0.6",
     "flatpickr": "^4.5.2",
     "moment": "^2.22.2",
+    "vee-validate": "^2.1.4",
     "vue": "^2.5.17",
     "vue-class-component": "^6.0.0",
     "vue-i18n": "^8.0.0",

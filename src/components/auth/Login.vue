@@ -7,8 +7,15 @@
             Email
           </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-            id="email" type="email" placeholder="email" v-model="email" required>
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="email"
+            type="text"
+            name="email"
+            placeholder="email"
+            v-model="email"
+            v-validate="'required|email'">
+
+          <div class="text-red text-xs text-center mt-1">{{ errors.first('email') }}</div>
         </div>
         <div class="mb-6">
           <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
@@ -16,8 +23,14 @@
           </label>
           <input
             class="shadow appearance-none rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="password" type="password" placeholder="******************" v-model="password" required
-            maxlength="16" minlength="6">
+            id="password"
+            name="password"
+            type="password"
+            placeholder="******************"
+            v-model="password"
+            v-validate="'required|min:4'">
+
+          <div class="text-red text-xs text-center mt-1">{{ errors.first('password') }}</div>
         </div>
         <div class="flex items-center bg-red text-white text-sm font-bold px-4 py-3 mb-2" role="alert" v-if="error">
           <p>{{ error }}</p>
@@ -37,7 +50,7 @@
         </div>
       </form>
       <p class="text-center text-grey text-xs">
-        ©2018 Acme Corp. All rights reserved.
+        ©2018 Codehell Corp. All rights reserved.
       </p>
     </div>
   </div>
@@ -59,28 +72,34 @@ export default class Login extends Vue {
     let headers = new Headers()
     headers.set('Content-type', 'text/plain')
     headers.set('Authorization', 'Basic ' + btoa(this.email + ':' + this.password))
-    fetch(Config.baseUrl() + 'auth/login', {
-      method: 'POST',
-      headers: headers
-    })
-      .then(res => {
-        this.error = ''
-        this.message = ''
-        if (res.status === 200) {
-          res.json()
-            .then((json) => {
-              window.localStorage.setItem('token', json.token)
-              this.$router.push({ name: 'dashboard/expenses' })
+    this.$validator.validate()
+      .then(result => {
+        if (result) {
+          fetch(Config.baseUrl() + 'auth/login', {
+            method: 'POST',
+            headers: headers
+          })
+            .then(res => {
+              this.error = ''
+              this.message = ''
+              if (res.status === 200) {
+                res.json()
+                  .then((json) => {
+                    window.localStorage.setItem('token', json.token)
+                    this.$store.commit('setIsLogged', true)
+                    this.$router.push({ name: 'dashboard/expenses' })
+                  })
+                this.message = this.$t('messages.login_ok') as string
+              } else if (res.status === 401) {
+                this.error = this.$t('errors.user_not_found') as string
+              } else {
+                throw new Error(res.statusText)
+              }
             })
-          this.message = this.$t('messages.login_ok') as string
-        } else if (res.status === 401) {
-          this.error = this.$t('errors.user_not_found') as string
-        } else {
-          throw new Error(res.statusText)
+            .catch(() => {
+              this.error = this.$t('errors.undefined') as string
+            })
         }
-      })
-      .catch(() => {
-        this.error = this.$t('errors.undefined') as string
       })
   }
 }

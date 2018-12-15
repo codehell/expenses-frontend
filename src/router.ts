@@ -30,10 +30,6 @@ export default new Router({
       path: '/auth',
       name: 'auth',
       component: Auth,
-      beforeEnter: (from, to, next) => {
-        localStorage.removeItem('token')
-        next()
-      },
       children: [
         {
           path: 'register',

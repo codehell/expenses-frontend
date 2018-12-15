@@ -160,6 +160,7 @@ export default class Expenses extends Vue {
         .then(res => {
           if (res.status === 401) {
             localStorage.removeItem('token')
+            this.$store.commit('setIsLogged', false)
             this.$router.push({ name: 'login' })
           } else if (res.status !== 200) {
             this.error = this.$t('errors.undefined') as string

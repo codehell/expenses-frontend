@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store<RootStore>({
   state: {
     expenses: [],
-    filtered: []
+    filtered: [],
+    isLogged: false,
   },
   mutations: {
     setExpenses (state, expenses) {
@@ -15,6 +16,9 @@ export default new Vuex.Store<RootStore>({
     },
     setFiltered (state, expenses) {
       state.filtered = expenses
+    },
+    setIsLogged (state, isLogged) {
+      state.isLogged = isLogged
     }
   },
   actions: {
