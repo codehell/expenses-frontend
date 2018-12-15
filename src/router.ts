@@ -30,6 +30,10 @@ export default new Router({
       path: '/auth',
       name: 'auth',
       component: Auth,
+      beforeEnter: (from, to, next) => {
+        localStorage.removeItem('token')
+        next()
+      },
       children: [
         {
           path: 'register',
@@ -47,6 +51,13 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      beforeEnter: (from, to, next) => {
+        if (localStorage.getItem('token') == null) {
+          next('/auth/login')
+        } else {
+          next()
+        }
+      },
       children: [
         {
           path: 'expenses',
