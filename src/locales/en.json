@@ -4,5 +4,10 @@
   },
   "messages": {
     "created": "The resource was created successfully"
+  },
+  "labels": {
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password"
   }
 }

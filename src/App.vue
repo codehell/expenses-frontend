@@ -13,7 +13,7 @@
                 </template>
                 <template v-else>
                     <a href="#" @click.prevent="logout">Logout</a>
-                    <router-link class="mx-2" :to="{ name: 'dashboard/expenses' }">Dashboard</router-link>
+                    <router-link class="mx-2" :to="{ name: 'dashboard' }">Dashboard</router-link>
                 </template>
             </div>
         </nav>

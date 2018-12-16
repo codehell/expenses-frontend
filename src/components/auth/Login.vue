@@ -1,6 +1,7 @@
 <template>
   <div class="flex justify-center container mx-auto">
     <div class="w-full max-w-xs">
+      <h2>{{ $t('texts.login') }}</h2>
       <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="send">
         <div class="mb-4">
           <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
@@ -32,12 +33,10 @@
 
           <div class="text-red text-xs text-center mt-1">{{ errors.first('password') }}</div>
         </div>
-        <div class="flex items-center bg-red text-white text-sm font-bold px-4 py-3 mb-2" role="alert" v-if="error">
-          <p>{{ error }}</p>
-        </div>
-        <div class="flex items-center bg-green text-white text-sm font-bold px-4 py-3 mb-2" role="alert" v-if="message">
-          <p>{{ message }}</p>
-        </div>
+
+        <div class="text-red text-xs text-center mt-1" v-if="error">{{ error }}</div>
+        <div class="text-green text-xs text-center mt-1" v-if="message">{{ message }}</div>
+
         <div class="flex items-center justify-between">
           <button
             class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -110,10 +109,13 @@ export default class Login extends Vue {
     "en": {
       "errors": {
         "user_not_found": "Incorrect user or password"
+      },
+      "messages": {
+        "login_ok": "Correct login"
+      },
+      "texts": {
+        "login": "Login"
       }
-    },
-    "messages": {
-      "login_ok": "Correct login"
     }
   }
 </i18n>

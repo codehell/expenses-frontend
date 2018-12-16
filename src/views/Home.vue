@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <HelloWorld :msg="$t('welcome')"/>
   </div>
 </template>
 
@@ -16,3 +15,11 @@ import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
   })
 export default class Home extends Vue {}
 </script>
+
+<i18n>
+  {
+    "en": {
+      "welcome": "Welcome to Codehell expenses manager"
+    }
+  }
+</i18n>
