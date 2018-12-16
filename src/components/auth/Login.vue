@@ -7,10 +7,10 @@
             Email
           </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            class="ch-input"
             id="email"
-            type="text"
             name="email"
+            type="text"
             placeholder="email"
             v-model="email"
             v-validate="'required|email'">
@@ -22,7 +22,7 @@
             Password
           </label>
           <input
-            class="shadow appearance-none rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            class="ch-input"
             id="password"
             name="password"
             type="password"

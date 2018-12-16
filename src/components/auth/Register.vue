@@ -7,17 +7,46 @@
             Email
           </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-            id="email" type="email" placeholder="email" v-model="email" required>
+            class="ch-input"
+            id="email"
+            name="email"
+            type="text"
+            placeholder="email"
+            v-model="email"
+            v-validate="'required|email'">
+
+          <div class="text-red text-xs text-center mt-1">{{ errors.first('email') }}</div>
         </div>
         <div class="mb-6">
           <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
             Password
           </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="password" type="password" placeholder="******************" v-model="password" required
-            maxlength="16" minlength="6">
+            class="ch-input"
+            id="password"
+            name="password"
+            ref="password"
+            type="password"
+            placeholder="******************"
+            v-model="password"
+            v-validate="'required|min:4'">
+
+          <div class="text-red text-xs text-center mt-1">{{ errors.first('password') }}</div>
+        </div>
+        <div class="mb-6">
+          <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+            Confirm Password
+          </label>
+          <input
+              class="ch-input"
+              id="confirm_password"
+              name="confirm_password"
+              type="password"
+              placeholder="******************"
+              v-model="confirmPassword"
+              v-validate="'required|confirmed:password|min:4'">
+
+          <div class="text-red text-xs text-center mt-1">{{ errors.first('confirm_password') }}</div>
         </div>
         <div class="flex items-center bg-red text-white text-sm font-bold px-4 py-3 mb-2" role="alert" v-if="error">
           <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -55,6 +84,7 @@ import Config from '@/config'
 
 @Component
 export default class Register extends Vue {
+  confirmPassword: string = ''
   email: string = ''
   password: string = ''
   error: string = ''
@@ -65,27 +95,33 @@ export default class Register extends Vue {
     this.message = ''
     let data = {
       'email': this.email,
-      'password': this.password
+      'password': this.password,
+      'confirm_password': this.confirmPassword
     }
     let headers = new Headers()
     headers.set('Content-Type', 'application/json')
-    fetch(Config.baseUrl() + 'auth/register', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: headers
-    })
-      .then(res => {
-        if (res.status === 201) {
-          this.message = this.$t('messages.user_created') as string
-        } else {
-          throw new Error(res.statusText)
-        }
-      })
-      .catch(err => {
-        if (err.message === 'Conflict') {
-          this.error = this.$t('errors.unique_violation') as string
-        } else {
-          this.error = this.$t('errors.undefined') as string
+    this.$validator.validate()
+      .then(ok => {
+        if (ok) {
+          fetch(Config.baseUrl() + 'auth/register', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: headers
+          })
+            .then(res => {
+              if (res.status === 201) {
+                this.message = this.$t('messages.user_created') as string
+              } else {
+                throw new Error(res.statusText)
+              }
+            })
+            .catch(err => {
+              if (err.message === 'Conflict') {
+                this.error = this.$t('errors.unique_violation') as string
+              } else {
+                this.error = this.$t('errors.undefined') as string
+              }
+            })
         }
       })
   }

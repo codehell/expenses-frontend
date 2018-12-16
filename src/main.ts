@@ -5,6 +5,7 @@ import store from './store'
 import '@/assets/css/app.css'
 import i18n from './i18n'
 import VeeValidate from 'vee-validate'
+import { Validator } from 'vee-validate'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
@@ -16,6 +17,16 @@ Vue.use(VeeValidate)
 Vue.component('font-awesome-icon', fontawesome.FontAwesomeIcon)
 
 Vue.config.productionTip = false
+
+const dictionary = {
+  en: {
+    attributes: {
+      confirm_password: 'confirm password'
+    }
+  }
+};
+
+Validator.localize(dictionary);
 
 new Vue({
   router,
