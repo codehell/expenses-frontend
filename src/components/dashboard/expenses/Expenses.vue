@@ -1,22 +1,22 @@
 <template>
     <div>
         <h2 class="mb-5 text-center">Expenses</h2>
-        <div v-if="error">
-            <p>{{ error }}</p>
-        </div>
-        <div v-if="message">
-            <p>{{ message }}</p>
+        <div class="h-6 text-center mb-3">
+            <span v-if="error">
+                {{ error }}
+            </span>
+            <span v-if="message">
+                {{ message }}
+            </span>
         </div>
         <div class="flex flex-wrap justify-evenly container mx-auto">
-            <div class="w-full max-w-xs">
-                <ExpensesSeeker></ExpensesSeeker>
-            </div>
-            <div class="w-full max-w-xs">
-                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="create">
-                    <div class="mb-4">
+            <div class="w-full max-w-sm">
+                <form class="bg-white shadow-md rounded px-8 pt-2 pb-8 mb-4" @submit.prevent="create">
+                    <h3>Register expense</h3>
+                    <div class="my-4">
                         <input
-                                class="ch-input"
-                                type="text" v-model="amount" :placeholder="$t('texts.amount')" required>
+                            class="ch-input"
+                            type="text" v-model="amount" :placeholder="$t('texts.amount')">
                     </div>
                     <div class="mb-4">
                         <input
@@ -35,8 +35,12 @@
                 </form>
             </div>
             <div class="w-full max-w-xs">
-                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="createTag">
-                    <div class="mb-4">
+                <ExpensesSeeker></ExpensesSeeker>
+            </div>
+            <div class="w-full max-w-xs">
+                <form class="bg-white shadow-md rounded px-8 pt-2 pb-8 mb-4" @submit.prevent="createTag">
+                    <h3>New tag</h3>
+                    <div class="my-4">
                         <input
                                 class="ch-input"
                                 type="text" v-model="tag" :placeholder="$t('texts.new_tag')">
@@ -103,7 +107,11 @@ export default class Expenses extends Vue {
         body: JSON.stringify(data)
       })
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 401) {
+            localStorage.removeItem('token')
+            this.$store.commit('setIsLogged', false)
+            this.$router.push({ name: 'login' })
+          } else if (res.status === 201) {
             this.message = this.$t('messages.created') as string
           } else {
             this.message = this.$t('errors.undefined') as string
@@ -124,7 +132,11 @@ export default class Expenses extends Vue {
         body: JSON.stringify(data)
       })
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 401) {
+            localStorage.removeItem('token')
+            this.$store.commit('setIsLogged', false)
+            this.$router.push({ name: 'login' })
+          } else if (res.status === 201) {
             this.message = this.$t('messages.created') as string
           } else {
             this.message = this.$t('errors.undefined') as string
@@ -142,7 +154,11 @@ export default class Expenses extends Vue {
         body: JSON.stringify(expense)
       })
         .then((res) => {
-          if (res.status === 204) {
+          if (res.status === 401) {
+            localStorage.removeItem('token')
+            this.$store.commit('setIsLogged', false)
+            this.$router.push({ name: 'login' })
+          } else if (res.status === 204) {
             this.message = this.$t('messages.expense_deleted') as string
           } else {
             this.message = this.$t('errors.undefined') as string

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-wrap justify-center md:justify-around container mx-auto">
+    <div class="flex flex-wrap justify-center md:justify-start container mx-auto">
         <div class="expense" v-for="expense in expenses" :key="expense.id">
             <div class="expense-body">
                 <div class="expense-data">

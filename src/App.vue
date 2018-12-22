@@ -34,6 +34,12 @@ export default class App extends Vue {
   get isLogged () {
     return this.$store.state.isLogged
   }
+
+  mounted () {
+    if (localStorage.getItem('token')) {
+      this.$store.commit('setIsLogged', true)
+    }
+  }
 }
 </script>
 
@@ -66,6 +72,7 @@ export default class App extends Vue {
     }
 
     nav a.router-link-exact-active {
+        /*noinspection CssUnresolvedCustomPropertySet*/
         @apply text-indigo-dark;
     }
 </style>

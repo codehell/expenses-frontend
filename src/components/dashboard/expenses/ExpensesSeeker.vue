@@ -1,7 +1,8 @@
 <template>
     <div>
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="search">
-            <div class="mb-4">
+        <form class="bg-white shadow-md rounded px-8 pt-2 pb-8 mb-4" @submit.prevent="search">
+            <h3>Seek expense</h3>
+            <div class="my-4">
                 <input class="ch-input" name="date" ref="flp" placeholder="By date" v-model="date">
             </div>
             <div class="mb-4">
